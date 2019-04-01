@@ -44,7 +44,7 @@ public class PreviousSale {
     private Date modifyTime;
 
     /**
-     * 0--固定支出，1--浮动支出
+     * 0--前期固定支出，1--月固定支出，2--浮动支出
      */
     private Integer type;
 

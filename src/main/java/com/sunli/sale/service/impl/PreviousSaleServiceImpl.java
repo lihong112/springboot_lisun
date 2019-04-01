@@ -37,10 +37,10 @@ public class PreviousSaleServiceImpl implements PreviousSaleService {
             criteria.andBetween("money",dto.getMoney1(),dto.getMoney2());
         }
         if(dto.getType()!=null){
-            criteria.andEqualTo("type",dto.getType());
+            criteria.andIn("type",dto.getType());
         }
         Integer pageNum=dto.getPageNum()!=null?dto.getPageNum():1;
-        Integer pageSize=dto.getPageSize()!=null?dto.getPageSize():10;
+        Integer pageSize=dto.getPageSize()!=null?dto.getPageSize():100;
         PageHelper.startPage(pageNum,pageSize);
         List<PreviousSale> previousSales = previousSaleMapper.selectByExample(example);
         return new PageInfo<PreviousSale>(previousSales);
