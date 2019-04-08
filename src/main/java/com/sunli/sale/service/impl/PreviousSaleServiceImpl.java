@@ -6,6 +6,7 @@ import com.sunli.sale.domain.PreviousSale;
 import com.sunli.sale.dto.reqDTO.PreviousSaleSelectListDTO;
 import com.sunli.sale.mappers.PreviousSaleMapper;
 import com.sunli.sale.service.PreviousSaleService;
+import com.sunli.sale.utils.DateUtils;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.StringUtil;
@@ -29,6 +30,21 @@ public class PreviousSaleServiceImpl implements PreviousSaleService {
         Example.Criteria criteria = example.createCriteria();
         if(dto.getSpendingTime2()!=null && dto.getSpendingTime1()!=null){
             criteria.andBetween("spendingTime",dto.getSpendingTime1(),dto.getSpendingTime2());
+        }else {
+            List<Integer> type = dto.getType();
+            Boolean isFix=false;
+            for (Integer tp: type) {
+                if(tp.equals(0)){
+                    isFix=true;
+                }
+            }
+            if(!isFix){
+                Date date=new Date();
+                Date minMonthDay = DateUtils.getMinMonthDay(date);
+                Date maxMonthDay = DateUtils.getMaxMonthDay(date);
+                criteria.andBetween("spendingTime", minMonthDay,maxMonthDay);
+            }
+
         }
         if(StringUtil.isNotEmpty(dto.getName())){
             criteria.andLike("name",dto.getName());
