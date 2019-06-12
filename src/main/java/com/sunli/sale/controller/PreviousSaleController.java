@@ -3,6 +3,7 @@ package com.sunli.sale.controller;
 import com.github.pagehelper.PageInfo;
 import com.sunli.sale.domain.PreviousSale;
 import com.sunli.sale.dto.reqDTO.PreviousSaleSelectListDTO;
+import com.sunli.sale.mappers.PreviousSaleMapper;
 import com.sunli.sale.service.PreviousSaleService;
 import com.sunli.sale.utils.resultUtil.ResultMsg;
 import com.sunli.sale.utils.resultUtil.ResultUtil;
@@ -19,6 +20,9 @@ import java.util.List;
 public class PreviousSaleController {
     @Resource
     private PreviousSaleService previousSaleService;
+    @Resource
+    private PreviousSaleMapper previousSaleMapper;
+
     @PostMapping("/insert/list")
 
     public ResultMsg insertList(@RequestBody PreviousSale previousSale){
@@ -40,5 +44,11 @@ public class PreviousSaleController {
     public ResultMsg deleteOne(Integer id){
         int i = previousSaleService.deleteOne(id);
         return ResultUtil.success(i);
+    }
+
+    @GetMapping("/test")
+    public ResultMsg test(Integer id){
+//        int i = previousSaleService.deleteOne(id);
+        return ResultUtil.success(previousSaleMapper.selectAll());
     }
 }
